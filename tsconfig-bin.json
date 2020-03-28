@@ -1,0 +1,13 @@
+{
+  "include": ["src/bin/*"],
+
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es2017",
+    "module": "commonjs",
+    "outDir": "./bin" /* Redirect output structure to the directory. */,
+    "declaration": false /* Generates corresponding '.d.ts' file */,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+  }
+}
