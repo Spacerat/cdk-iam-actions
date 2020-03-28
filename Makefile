@@ -38,5 +38,14 @@ lib : lib/actions.js lib/conditions.js lib/index.js
 
 # Util
 
-clean:
-	rm -rf bin lib
+.PHONY: clean-lib clean-bin clean
+
+clean-lib:
+	rm -rf lib
+
+clean-bin:
+	rm -rf bin
+
+clean: clean-lib clean-bin
+	:
+	

@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as process from "process";
 
 import { extractServiceInfo, load } from "./parse";
-import { render } from "./render";
+import { render, addDocComment, exportEnum } from "./render";
 
 type ConditionInfo = {
   fullName: string;
@@ -18,20 +18,11 @@ export function makeConditionNode({
   conditions,
   iamUrl
 }: ConditionInfo) {
-  const decl = ts.createEnumDeclaration(
-    [],
-    [ts.createModifier(ts.SyntaxKind.ExportKeyword)],
-    identifier,
-    conditions.map(({ name, value }) =>
-      ts.createEnumMember(name, ts.createStringLiteral(value))
-    )
-  );
-  return ts.addSyntheticLeadingComment(
-    decl,
-    ts.SyntaxKind.MultiLineCommentTrivia,
-    `* Condition keys for ${fullName}\n  * See: ${iamUrl}\n  `,
-    true
-  );
+  const enumDeclaration = exportEnum(identifier, conditions);
+  return addDocComment(enumDeclaration, [
+    `Condition keys for ${fullName}`,
+    `See: ${iamUrl}`
+  ]);
 }
 
 function main() {
@@ -42,10 +33,9 @@ function main() {
     x => x.conditions !== undefined
   ) as ConditionInfo[];
 
-  //   console.log(JSON.stringify(infoWithConditions[0].conditions));
   const conditionNodes = infoWithConditions.map(makeConditionNode);
 
-  fs.writeFileSync(process.argv[3], render(conditionNodes.slice(0, 10)));
+  fs.writeFileSync(process.argv[3], render(conditionNodes));
 }
 
 main();

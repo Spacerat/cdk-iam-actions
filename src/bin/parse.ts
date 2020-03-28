@@ -2,10 +2,12 @@ import { ServiceMap, Entry } from "./serviceMap";
 
 import * as fs from "fs";
 
+/** Load a Service Map downloaded from AWS  */
 export function load(path: string) {
   return JSON.parse(fs.readFileSync(path, { encoding: "utf8" })) as ServiceMap;
 }
 
+/** Uppercase the first character of a string */
 function upperFirst(s: string) {
   return s[0].toUpperCase() + s.slice(1);
 }
@@ -39,6 +41,7 @@ function getName(key: string, entry: Entry) {
     .join("");
 }
 
+/** Convert a Condition Key value to a nice enum identifier */
 function conditionName(value: string) {
   return value
     .split(":")[1]
@@ -48,8 +51,14 @@ function conditionName(value: string) {
     .join("");
 }
 
+/** Return true of the Condition Key can be converted to an enum member */
 function validCondition(key: string): boolean {
-  return !key.includes("<") && !key.includes("/") && key.includes(":");
+  return (
+    !key.includes("<") &&
+    !key.includes("/") &&
+    key.includes(":") &&
+    !key.startsWith(" ")
+  );
 }
 
 /** Extract and compute the content of an enum for a service map entry */

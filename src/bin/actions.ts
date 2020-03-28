@@ -3,7 +3,7 @@ import * as ts from "typescript";
 import * as process from "process";
 
 import { extractServiceInfo, load } from "./parse";
-import { render } from "./render";
+import { render, addDocComment, exportEnum } from "./render";
 
 type EnumInfo = {
   fullName: string;
@@ -18,20 +18,11 @@ export function makeEnumNode({
   actions,
   iamUrl
 }: EnumInfo) {
-  const decl = ts.createEnumDeclaration(
-    [],
-    [ts.createModifier(ts.SyntaxKind.ExportKeyword)],
-    identifier,
-    actions.map(({ name, value }) =>
-      ts.createEnumMember(name, ts.createStringLiteral(value))
-    )
-  );
-  return ts.addSyntheticLeadingComment(
-    decl,
-    ts.SyntaxKind.MultiLineCommentTrivia,
-    `* Actions for ${fullName}\n  * See: ${iamUrl}\n  `,
-    true
-  );
+  const enumDeclaration = exportEnum(identifier, actions);
+  return addDocComment(enumDeclaration, [
+    `Actions for ${fullName}`,
+    `See: ${iamUrl}`
+  ]);
 }
 
 function main() {
