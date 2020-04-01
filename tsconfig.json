@@ -1,3 +1,4 @@
+// Config for editors
 {
   "compilerOptions": {
     "target": "es2017",

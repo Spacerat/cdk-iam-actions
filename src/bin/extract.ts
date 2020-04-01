@@ -11,9 +11,9 @@ g._ = {
   extend: function() {}
 };
 
-require("./policies.js");
+require("../data/policies.js");
 
 fs.writeFileSync(
-  "bin/app.json",
+  "data/app.json",
   JSON.stringify(g.app.PolicyEditorConfig.serviceMap, null, 2)
 );

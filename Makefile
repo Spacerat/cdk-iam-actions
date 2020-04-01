@@ -1,10 +1,27 @@
+LIB_FILES=lib/index.ts lib/actions.ts lib/conditions.ts
+BIN_FILES:=$(shell ls src/bin/*.ts)
+
+# Typescript compilation
+
+lib: $(LIB_FILES) tsconfig-lib.json
+	mkdir -p lib
+	tsc -p tsconfig-lib.json
+	touch lib
+
+bin: $(BIN_FILES) tsconfig-bin.json
+	mkdir -p bin
+	tsc -p tsconfig-bin.json
+	touch bin
+
+
 # Downloading AWS metadata
 
-bin/policies.js:
-	mkdir -p bin
-	curl https://awsiamconsole.s3.amazonaws.com/iam/assets/js/bundles/policies.js > bin/policies.js
+data/policies.js:
+	mkdir -p data
+	curl https://awsiamconsole.s3.amazonaws.com/iam/assets/js/bundles/policies.js > data/policies.js
 
-bin/app.json: bin/policies.js bin/extract.js
+data/app.json: data/policies.js bin
+	mkdir -p data
 	node bin/extract.js
 
 # Library compilation
@@ -13,32 +30,18 @@ lib/index.ts:
 	mkdir -p lib
 	cp src/lib/index.ts lib/index.ts
 
-lib/actions.ts: bin/app.json bin/actions.js bin/serviceMap.js bin/parse.js bin/render.js
+lib/actions.ts: data/app.json bin
 	mkdir -p lib
-	node bin/actions.js bin/app.json lib/actions.ts
+	node bin/actions.js data/app.json lib/actions.ts
 
-lib/conditions.ts: bin/app.json bin/conditions.js bin/serviceMap.js bin/parse.js bin/render.js
+lib/conditions.ts: data/app.json bin
 	mkdir -p lib
-	node bin/conditions.js bin/app.json lib/conditions.ts
+	node bin/conditions.js data/app.json lib/conditions.ts
 
-# Typescript compilation
-
-bin/%.js: src/bin/%.ts tsconfig-bin.json
-	mkdir -p bin
-	tsc -p tsconfig-bin.json
-
-lib/%.js: lib/%.ts tsconfig-lib.json
-	mkdir -p lib
-	tsc -p tsconfig-lib.json
-
-.PHONY: lib
-
-lib : lib/actions.js lib/conditions.js lib/index.js
-	:
 
 # Util
 
-.PHONY: clean-lib clean-bin clean
+.PHONY: clean-lib clean-bin clean-data clean
 
 clean-lib:
 	rm -rf lib
@@ -46,6 +49,8 @@ clean-lib:
 clean-bin:
 	rm -rf bin
 
-clean: clean-lib clean-bin
+clean-data:
+	rm -rf data
+
+clean: clean-lib clean-bin clean-data
 	:
-	
