@@ -88,3 +88,5 @@ export function extractServiceInfo(map: ServiceMap) {
     };
   });
 }
+
+export type ServiceInfo = ReturnType<typeof extractServiceInfo>[0];

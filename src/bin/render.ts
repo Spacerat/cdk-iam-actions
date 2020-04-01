@@ -46,7 +46,7 @@ export function addDocComment<T extends ts.Node>(node: T, lines: string[]): T {
  * @param identifier name of the enum
  * @param values list of enum members
  */
-export function exportEnum(
+export function createExportEnum(
   identifier: string,
   values: { name: string; value: string }[]
 ) {

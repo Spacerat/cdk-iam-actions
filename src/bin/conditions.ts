@@ -1,37 +1,15 @@
-import * as ts from "typescript";
 import * as fs from "fs";
 import * as process from "process";
-
+import { makeConditionNode } from "./nodes";
 import { extractServiceInfo, load } from "./parse";
-import { render, addDocComment, exportEnum } from "./render";
+import { render } from "./render";
 
-type ConditionInfo = {
-  fullName: string;
-  iamUrl: string;
-  identifier: string;
-  conditions: { name: string; value: string }[];
-};
-
-export function makeConditionNode({
-  identifier,
-  fullName,
-  conditions,
-  iamUrl
-}: ConditionInfo) {
-  const enumDeclaration = exportEnum(identifier, conditions);
-  return addDocComment(enumDeclaration, [
-    `Condition keys for ${fullName}`,
-    `See: ${iamUrl}`
-  ]);
-}
-
+/** Create the Conditions library */
 function main() {
   const serviceMapFile = process.argv[2];
   const info = extractServiceInfo(load(serviceMapFile));
 
-  const infoWithConditions = info.filter(
-    x => x.conditions !== undefined
-  ) as ConditionInfo[];
+  const infoWithConditions = info.filter(x => x.conditions !== undefined);
 
   const conditionNodes = infoWithConditions.map(makeConditionNode);
 

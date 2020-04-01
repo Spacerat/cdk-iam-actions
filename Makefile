@@ -1,18 +1,24 @@
-LIB_FILES=lib/index.ts lib/actions.ts lib/conditions.ts
+LIB_FILES=$(shell ls src/lib/*.ts) lib/actions.ts lib/conditions.ts
 BIN_FILES:=$(shell ls src/bin/*.ts)
+
 
 # Typescript compilation
 
 lib: $(LIB_FILES) tsconfig-lib.json
+	cp src/lib/* lib/
 	mkdir -p lib
-	tsc -p tsconfig-lib.json
+	tsc --incremental -p tsconfig-lib.json
 	touch lib
 
 bin: $(BIN_FILES) tsconfig-bin.json
 	mkdir -p bin
-	tsc -p tsconfig-bin.json
+	tsc --incremental -p tsconfig-bin.json
 	touch bin
 
+# Testing
+
+test: bin lib
+	npm test
 
 # Downloading AWS metadata
 
@@ -25,10 +31,6 @@ data/app.json: data/policies.js bin
 	node bin/extract.js
 
 # Library compilation
-
-lib/index.ts:
-	mkdir -p lib
-	cp src/lib/index.ts lib/index.ts
 
 lib/actions.ts: data/app.json bin
 	mkdir -p lib

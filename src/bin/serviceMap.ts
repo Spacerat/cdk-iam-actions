@@ -1,9 +1,9 @@
 export type Entry = {
-  ARNFormat: string;
-  ARNRegex: string;
   Actions: string[];
   HasResource: boolean;
   StringPrefix: string;
+  ARNFormat?: string;
+  ARNRegex?: string;
   conditionKeys?: string[];
 };
 

@@ -8,6 +8,7 @@
     "outDir": "./bin" /* Redirect output structure to the directory. */,
     "declaration": false /* Generates corresponding '.d.ts' file */,
     "strict": true,
+    "sourceMap": true,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   }
 }
