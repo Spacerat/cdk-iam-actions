@@ -43,7 +43,11 @@ lib/conditions.ts: data/app.json bin
 
 # Util
 
-.PHONY: clean-lib clean-bin clean-data clean
+.PHONY: clean-lib clean-bin clean-build clean-data clean-test clean
+
+clean-test:
+	rm -rf test/*.js
+	rm -rf test/*.d.ts
 
 clean-lib:
 	rm -rf lib
@@ -54,5 +58,8 @@ clean-bin:
 clean-data:
 	rm -rf data
 
-clean: clean-lib clean-bin clean-data
+clean-build: clean-lib clean-bin clean-test
+	:
+
+clean: clean-build clea-data
 	:
