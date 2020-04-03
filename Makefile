@@ -17,6 +17,8 @@ bin: $(BIN_FILES) tsconfig-bin.json
 
 # Testing
 
+.PHONY: test
+
 test: bin lib
 	npm test
 

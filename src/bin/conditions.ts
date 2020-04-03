@@ -2,7 +2,6 @@ import * as fs from "fs";
 import * as process from "process";
 import { extractServiceInfo, load, ServiceInfo } from "./parse";
 import { addDocComment, createExportEnum, render } from "./render";
-import { titleCaseToEnumCase } from "./strings";
 
 export function makeConditionNode(props: ServiceInfo) {
   const enumDeclaration = createExportEnum(
@@ -15,7 +14,7 @@ export function makeConditionNode(props: ServiceInfo) {
   ]);
 }
 
-/** Create the Conditions library */
+/** Create the conditions.ts library file */
 function main() {
   const serviceMapFile = process.argv[2];
   const info = extractServiceInfo(load(serviceMapFile));
