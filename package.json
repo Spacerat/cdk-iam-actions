@@ -1,0 +1,56 @@
+{
+  "name": "cdk-iam-actions",
+  "version": "1.0.0",
+  "description": "A Typescript library of AWS actions and condition key enums",
+  "license": "ISC",
+  "directories": {
+    "lib": "lib"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "aws",
+    "cdk"
+  ],
+  "homepage": "https://github.com/spacerat/cdk-iam-actions",
+  "repository": {
+    "url": "https://github.com/spacerat/cdk-iam-actions",
+    "type": "git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "@types/node": "^13.9.8",
+    "jest": "^25.2.4",
+    "jsii": "^1.1.0",
+    "jsii-pacmak": "^1.1.0",
+    "typescript": "^3.8.3"
+  },
+  "author": {
+    "name": "Joseph Atkins-Turkish",
+    "url": "https://github.com/spacerat"
+  },
+  "jsii": {
+    "outdir": "dist",
+    "versionFormat": "full",
+    "excludeTypescript": [
+      "src"
+    ],
+    "targets": {
+      "python": {
+        "distName": "cdk-iam-actions",
+        "module": "cdk_iam_actions"
+      }
+    }
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js"
+    ]
+  },
+  "scripts": {
+    "test": "jest **/*.test.js",
+    "watch": "watchman-make -p src/**/*.ts  -t test --make \"make -j4\""
+  },
+  "stability": "experimental"
+}

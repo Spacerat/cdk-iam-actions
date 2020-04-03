@@ -4,10 +4,10 @@ BIN_FILES:=$(shell ls src/bin/*.ts)
 
 # Typescript compilation
 
-lib: $(LIB_FILES) tsconfig-lib.json
+lib: $(LIB_FILES)
 	cp src/lib/* lib/
 	mkdir -p lib
-	tsc --incremental -p tsconfig-lib.json
+	jsii
 	touch lib
 
 bin: $(BIN_FILES) tsconfig-bin.json

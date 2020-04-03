@@ -1,9 +1,15 @@
 # Build & downloaded data
-/bin
-/data
+bin/
+data/
+dist/
 
 # Local config/cruft
 /.vscode
 *.tsbuildinfo
 .DS_store
 node_modules
+.jsii
+
+# Built typescript
+*.js
+*.d.ts

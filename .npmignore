@@ -1,0 +1,24 @@
+
+# Exclude typescript source and config
+*.ts
+tsconfig.json
+
+# Exclude tests
+test
+
+# Exclude code-gen code
+tsconfig-bin.json
+src
+bin
+data
+Makefile
+
+# Include javascript lib code and typescript declarations
+!lib/*.js
+!lib/*.d.ts
+
+# Exclude jsii outdir
+dist
+
+# Include .jsii
+!.jsii
