@@ -1,7 +1,7 @@
 # Build & downloaded data
-bin/
-data/
-dist/
+/bin/
+/data/
+/dist/
 
 # Local config/cruft
 /.vscode

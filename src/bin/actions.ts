@@ -1,8 +1,16 @@
 import * as fs from "fs";
 import * as process from "process";
-import { makeEnumNode } from "./nodes";
-import { extractServiceInfo, load } from "./parse";
-import { render } from "./render";
+import { extractServiceInfo, load, ServiceInfo } from "./parse";
+import { addDocComment, createExportEnum, render } from "./render";
+import { titleCaseToEnumCase } from "./strings";
+
+export function makeEnumNode(props: ServiceInfo) {
+  const enumDeclaration = createExportEnum(props.identifier, props.actions);
+  return addDocComment(enumDeclaration, [
+    `Actions for ${props.fullName}`,
+    `See: ${props.iamUrl}`
+  ]);
+}
 
 function main() {
   const serviceMapFile = process.argv[2];

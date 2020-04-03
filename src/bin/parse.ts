@@ -1,15 +1,10 @@
-import { ServiceMap, Entry } from "./serviceMap";
-
 import * as fs from "fs";
+import { Entry, ServiceMap } from "./serviceMap";
+import { upperFirst, titleCaseToEnumCase } from "./strings";
 
 /** Load a Service Map downloaded from AWS  */
 export function load(path: string) {
   return JSON.parse(fs.readFileSync(path, { encoding: "utf8" })) as ServiceMap;
-}
-
-/** Uppercase the first character of a string */
-function upperFirst(s: string) {
-  return s[0].toUpperCase() + s.slice(1);
 }
 
 /**
@@ -47,8 +42,9 @@ function conditionName(value: string) {
     .split(":")[1]
     .split("/")[0]
     .split(/[-\._]/g)
-    .map(upperFirst)
-    .join("");
+    .map(titleCaseToEnumCase)
+    .join("_")
+    .toUpperCase();
 }
 
 /** Return true of the Condition Key can be converted to an enum member */
@@ -66,7 +62,7 @@ export function extractServiceInfo(map: ServiceMap) {
   return Object.entries(map).map(([key, entry]) => {
     const identifier = getName(key, entry);
     const actions = entry.Actions.map(action => ({
-      name: action,
+      name: titleCaseToEnumCase(action),
       value: `${entry.StringPrefix}:${action}`
     }));
     const urlName = key.replace(/[\s-]/g, "").toLowerCase();

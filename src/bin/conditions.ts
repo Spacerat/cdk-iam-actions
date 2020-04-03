@@ -1,8 +1,19 @@
 import * as fs from "fs";
 import * as process from "process";
-import { makeConditionNode } from "./nodes";
-import { extractServiceInfo, load } from "./parse";
-import { render } from "./render";
+import { extractServiceInfo, load, ServiceInfo } from "./parse";
+import { addDocComment, createExportEnum, render } from "./render";
+import { titleCaseToEnumCase } from "./strings";
+
+export function makeConditionNode(props: ServiceInfo) {
+  const enumDeclaration = createExportEnum(
+    props.identifier,
+    props?.conditions ?? []
+  );
+  return addDocComment(enumDeclaration, [
+    `Condition keys for ${props.fullName}`,
+    `See: ${props.iamUrl}`
+  ]);
+}
 
 /** Create the Conditions library */
 function main() {
